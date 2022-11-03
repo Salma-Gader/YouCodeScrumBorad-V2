@@ -4,15 +4,14 @@
     
 $servername = "localhost";
 $username = "root";
-$password = "19569195s";
+$password = "1969195s";
 $basename = "YouCodeScrumBorad-V2";
 // Create connection
 $conn = new mysqli($servername, $username, $password,$basename);
 
 // Check connection
-if ($conn) {
-    echo "Connected successfully";
+// if($conn){
+//     die("database is connect");
+// }else die("database is not connect");
 
-}
- echo ("Connection failed");
 ?>
