@@ -278,7 +278,7 @@
                 <div class="col-xl-4 col-lg-6">
                     <div class="panel panel-inverse">
                         <div class="panel-heading">
-                            <h4 class="panel-title">To do (<span id="to-do-tasks-count">0</span>)</h4>
+                            <h4 class="panel-title">To do (<span id="to-do-tasks-count"><?php numberTask(1) ?></span>)</h4>
                             <div class="panel-heading-btn">
                                 <a href="javascript:;" class="btn btn-xs btn-icon btn-default"
                                     data-toggle="panel-expand"><i class="fa fa-expand"></i></a>
@@ -299,21 +299,21 @@
 								$result = getTasks();
 	
 								while($row = $result->fetch_assoc()) {
-									if($row["status_id"]==1){
+									if($row["status"]=="To Do"){
 										echo '
-										<a href="update.php" class="d-flex  list-group-item w-100 text-start" name="get" type="submit">
+										<a href="update.php?updateId='. $row["id"].'" class="d-flex  list-group-item w-100 text-start" name="get" type="submit">
 										<div class="mt-1">
-										<i class="fa-regular fa-circle-check text-success fs-2"></i> 
+										<i class="fa-regular fa-circle-question text-success fs-2"></i> 
 										</div>
 										<div class="ms-3">
 											<div class="fs-5">'. $row["title"].'</div>
 											<div class="">
-												<div class="text-muted">#1 created in '.$row["task_datetime"].'</div>
+												<div class="text-muted">#'. $row["id"].' created in '.$row["task_datetime"].'</div>
 												<div class="" title="There is hardly anything more frustrating than having to look for current requirements in tens of comments under the actual description or having to decide which commenter is actually authorized to change the requirements. The goal here is to keep all the up-to-date requirements and details in the main/primary description of a task. Even though the information in comments may affect initial criteria, just update this primary description accordingly.">'.$row["Description"].'</div>
 											</div>
 											<div class="mt-1">
-												<span class="btn btn-primary btn-sm py-3px px-5px">'.$row["priority_id"].'</span>
-												<span class="btn btn-light btn-sm text-dark py-3px px-5px">'.$row["status_id"].'</span>
+												<span class="btn btn-primary btn-sm py-3px px-5px">'.$row["priorities"].'</span>
+												<span class="btn btn-light btn-sm text-dark py-3px px-5px">'.$row["types"].'</span>
 											</div>
 										</div>
 									</a>
@@ -329,7 +329,7 @@
                 <div class="col-xl-4 col-lg-6">
                     <div class="panel panel-inverse">
                         <div class="panel-heading">
-                            <h4 class="panel-title">In Progress (<span id="in-progress-tasks-count">0</span>)</h4>
+                            <h4 class="panel-title">In Progress (<span id="in-progress-tasks-count"><?php numberTask(2) ?></span>)</h4>
                             <div class="panel-heading-btn">
                                 <a href="javascript:;" class="btn btn-xs btn-icon btn-default"
                                     data-toggle="panel-expand"><i class="fa fa-expand"></i></a>
@@ -351,21 +351,21 @@
 								$result = getTasks();
 
 								while($row = $result->fetch_assoc()) {
-									if($row["status_id"]==2){
+									if($row["status"]=="In Progress"){
 										echo '
-										<a href="update.php" class="d-flex  list-group-item w-100 text-start" name="get" type="submit">
+										<a href="update.php?updateId='. $row["id"].'" class="d-flex  list-group-item w-100 text-start" name="get" type="submit">
 										<div class="mt-1">
-										<i class="fa-regular fa-circle-check text-success fs-2"></i> 
+										<i class="fa fa-circle-notch fa-rotate-90 text-success fs-2"></i> 
 										</div>
 										<div class="ms-3">
 											<div class="fs-5">'. $row["title"].'</div>
 											<div class="">
-												<div class="text-muted">#1 created in '.$row["task_datetime"].'</div>
+												<div class="text-muted">#'. $row["id"].' created in '.$row["task_datetime"].'</div>
 												<div class="" title="There is hardly anything more frustrating than having to look for current requirements in tens of comments under the actual description or having to decide which commenter is actually authorized to change the requirements. The goal here is to keep all the up-to-date requirements and details in the main/primary description of a task. Even though the information in comments may affect initial criteria, just update this primary description accordingly.">'.$row["Description"].'</div>
 											</div>
 											<div class="mt-1">
-												<span class="btn btn-primary btn-sm py-3px px-5px">'.$row["priority_id"].'</span>
-												<span class="btn btn-light btn-sm text-dark py-3px px-5px">'.$row["status_id"].'</span>
+												<span class="btn btn-primary btn-sm py-3px px-5px">'.$row["priorities"].'</span>
+												<span class="btn btn-light btn-sm text-dark py-3px px-5px">'.$row["types"].'</span>
 											</div>
 										</div>
 									</a>
@@ -380,7 +380,7 @@
                 <div class="col-xl-4 col-lg-6">
                     <div class="panel panel-inverse">
                         <div class="panel-heading">
-                            <h4 class="panel-title">Done (<span id="done-tasks-count">0</span>)</h4>
+                            <h4 class="panel-title">Done (<span id="done-tasks-count"><?php numberTask(3) ?></span>)</h4>
                             <div class="panel-heading-btn">
                                 <a href="javascript:;" class="btn btn-xs btn-icon btn-default"
                                     data-toggle="panel-expand"><i class="fa fa-expand"></i></a>
@@ -402,21 +402,21 @@
 								$result = getTasks();
 
 								while($row = $result->fetch_assoc()) {
-									if($row["status_id"]==3){
+									if($row["status"]=="Done"){
 										echo '
-										<a href="update.php" class="d-flex  list-group-item w-100 text-start" name="get" type="submit">
+										<a href="update.php?updateId='. $row["id"].'" class="d-flex  list-group-item w-100 text-start" name="get" type="submit">
 										<div class="mt-1">
 										<i class="fa-regular fa-circle-check text-success fs-2"></i> 
 										</div>
 										<div class="ms-3">
 											<div class="fs-5">'. $row["title"].'</div>
 											<div class="">
-												<div class="text-muted">#1 created in '.$row["task_datetime"].'</div>
+												<div class="text-muted">#'. $row["id"].' created in '.$row["task_datetime"].'</div>
 												<div class="" title="There is hardly anything more frustrating than having to look for current requirements in tens of comments under the actual description or having to decide which commenter is actually authorized to change the requirements. The goal here is to keep all the up-to-date requirements and details in the main/primary description of a task. Even though the information in comments may affect initial criteria, just update this primary description accordingly.">'.$row["Description"].'</div>
 											</div>
 											<div class="mt-1">
-												<span class="btn btn-primary btn-sm py-3px px-5px">'.$row["priority_id"].'</span>
-												<span class="btn btn-light btn-sm text-dark py-3px px-5px">'.$row["status_id"].'</span>
+												<span class="btn btn-primary btn-sm py-3px px-5px">'.$row["priorities"].'</span>
+												<span class="btn btn-light btn-sm text-dark py-3px px-5px">'.$row["types"].'</span>
 											</div>
 										</div>
 									</a>

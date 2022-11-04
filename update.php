@@ -2,6 +2,8 @@
 
 include "database.php";
 include 'scripts.php';
+$result = getTasks();
+	
 ?>
 
 <!DOCTYPE html>
@@ -22,6 +24,15 @@ include 'scripts.php';
 
    
 			<!-- TASK MODAL -->
+<?php
+  global $conn;
+  $id= $_GET['updateId'];
+  $request= "SELECT tasks.id,tasks.title,tasks.type_id,tasks.priority_id,tasks.status_id,tasks.task_datetime,tasks.Description FROM tasks
+  WHERE tasks.id= $id";
+ 
+  $result = mysqli_query($conn, $request);
+  $row = $result->fetch_assoc();
+	echo '
 	<div>
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -35,18 +46,19 @@ include 'scripts.php';
 							<input type="hidden" id="task-id" name="task-id">
 							<div class="mb-3">
 								<label class="form-label">Title</label>
-								<input type="text"  name="task-title" class="form-control" id="task-title" >
+								<input type="text"  name="task-title" class="form-control" id="task-title" value="'.$row["title"].'" >
+								<input type="hidden" name="id_clicked"  value="'.$row["id"].'">
 							</div>
 							<div class="mb-3">
 								<label class="form-label">Type</label>
 								<div class="ms-3">
 									<div class="form-check mb-1">
-										<input class="form-check-input" name="task-type" type="radio" id="task-type-feature"/>
-										<label class="form-check-label" for="task-type-feature">Feature</label>
+										<input class="form-check-input" name="task-type" type="radio" id="task-type-feature" value="1"'; if($row["type_id"] == 1){echo 'checked';} echo '/>
+										<label class="form-check-label" for="task-type-feature" value="Feature">Feature</label>
 									</div>
 									<div class="form-check">
-										<input class="form-check-input" name="task-type" type="radio"   id="task-type-bug"/>
-										<label class="form-check-label" for="task-type-bug">Bug</label>
+										<input class="form-check-input" name="task-type" type="radio"   id="task-type-bug" value="2"'; if($row["type_id"] == 2){echo 'checked';} echo '/>
+										<label class="form-check-label" for="task-type-bug" >Bug</label>
 									</div>
 								</div>
 								
@@ -55,28 +67,28 @@ include 'scripts.php';
 								<label class="form-label">Priority</label>
 								<select class="form-select" name="task-priority"id="task-priority">
 									<option value="">Please select</option>
-									<option value="1" >Low</option>
-									<option value="2" >Medium</option>
-									<option value="3" >High</option>
-									<option value="4" >Critical</option>
+									<option value="1"'; if($row["priority_id"] == 1){echo 'selected';} echo ' >Low</option>
+									<option value="2"'; if($row["priority_id"] == 2){echo 'selected';} echo ' >Medium</option>
+									<option value="3"'; if($row["priority_id"] == 3){echo 'selected';} echo ' >High</option>
+									<option value="4"'; if($row["priority_id"] == 4){echo 'selected';} echo ' >Critical</option>
 								</select>
 							</div>
 							<div class="mb-3">
 								<label class="form-label">Status</label>
-								<select class="form-select" name="task-status" id="task-status">
+								<select class="form-select" name="task-status" id="task-status" >
 									<option value="">Please select</option>
-									<option value="1">To Do</option>
-									<option value="2">>In Progress</option>
-									<option value="3">>Done</option>
+									<option value="1"'; if($row["status_id"] == 1){echo 'selected="selected"';} echo '>To Do</option>
+									<option value="2"'; if ($row["status_id"] == 2) echo 'selected="selected"'; echo '>In Progress</option>
+									<option value="3"'; if ($row["status_id"] == 3) echo 'selected="selected"'; echo '>Done</option>
 								</select>
 							</div>
 							<div class="mb-3">
 								<label class="form-label">Date</label>
-								<input type="date" class="form-control" id="task-date" name="task-Date"/>
+								<input type="date" class="form-control" id="task-date" name="task-Date" value="'.$row["task_datetime"].'"/>
 							</div>
 							<div class="mb-0">
 								<label class="form-label">Description</label>
-								<textarea class="form-control" rows="10" id="task-description" name="task-Description" ></textarea>
+								<textarea class="form-control" rows="10" id="task-description" name="task-Description"> '.$row["Description"].'</textarea>
 							</div>
 						
 					</div>
@@ -90,6 +102,8 @@ include 'scripts.php';
 			</div>
 		</div>
 	</div>
+	';
+	?>
 	 
 
 </body>

@@ -12,16 +12,12 @@
     function getTasks()
     {
         global $conn;
-        $sql = "SELECT * FROM tasks";
+        $sql = "SELECT tasks.id,tasks.title,tasks.task_datetime,tasks.Description,types.name AS types,priorities.name AS priorities,status.name AS status,tasks.task_datetime AS date FROM tasks
+        INNER JOIN types ON tasks.type_id =types.id
+        INNER JOIN priorities ON tasks.priority_id=priorities.id
+        INNER JOIN status ON tasks.status_id=status.id";
         $result = mysqli_query($conn, $sql);
-        return $result;
-        
-        //$sql ="SELECT tasks.id as id ,  tasks.title as title  ,  tasks.task_datetime as task_datetime, tasks.Description as Description , 
-        //tasks.prioriti as type_id , statuses.name  as status_id, priorities.name as priority FROM tasks";
-
-        // JOIN types on types.id = tasks.type_id
-        // JOIN status on statuses.id = tasks.status_id 
-        // JOIN priorities on priorities.id = tasks.priority_id";
+        return $result; 
     }
 
    
@@ -43,24 +39,50 @@
         if(mysqli_query($conn, $sql)){
         
             $_SESSION['message'] = "Task has been added successfully !";
-		      header('location: index.php');
+		    header('location: index.php');
         }
     }
 
     function updateTask()
     {
+        global $conn;
         //CODE HERE
+        $id = $_POST['id_clicked'];
+        $title = $_POST['task-title'];
+        $type = $_POST['task-type'];
+        $priority = $_POST['task-priority'];
+        $Status = $_POST['task-status'];
+        $Date = $_POST['task-Date'];
+        $Description = $_POST['task-Description'];
+
+      
         //SQL UPDATE
-        $_SESSION['message'] = "Task has been updated successfully !";
-		header('location: index.php');
+        $sql= "UPDATE `tasks` SET `title`='$title',`type_id`='$type',`priority_id`='$priority',`status_id`='$Status',`task_datetime`='$Date',`Description`='$Description' WHERE id= $id";
+        if(mysqli_query($conn, $sql)){
+         $_SESSION['message'] = "Task has been updated successfully !";
+		 header('location: index.php');
+        }
     }
 
     function deleteTask()
-    {
+    {   
+        global $conn;
         //CODE HERE
+        $id = $_POST['id_clicked'];
         //SQL DELETE
+        $sql = "DELETE FROM `tasks` WHERE id = $id ";
+        if(mysqli_query($conn, $sql)){
         $_SESSION['message'] = "Task has been deleted successfully !";
 		header('location: index.php');
+        }
     }
+    function numberTask($status)
+    {
+        global $conn;
+        $sql = "SELECT * FROM `tasks` WHERE status_id = $status";
+        $result = mysqli_query($conn,$sql);
+        echo mysqli_num_rows($result);
+    }
+    
 
 ?>
